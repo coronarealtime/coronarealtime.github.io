@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+    <title>Coronavirus en tiempo real</title>
+
+  </head>
+
+  <body>
+
+    <!-- Begin page content -->
+    <div class="container">
+      <div class="mt-4">
+        <h1>Coronavirus en tiempo real</h1>
+      </div>
+      <p class="lead">Las víctimas del coronavirus (enfermedad por SARS-CoV-2, COVID-19) en España <strong>estimadas</strong> en tiempo real. Se utilizan datos oficiales, actualizados diariamente, para ofrecer una estimación realista. Está disponible una <a href="#prediction_table">tabla con todas las predicciones</a>.</p>
+
+      <div class="container">
+  <div class="row mt-4">
+    <div class="col-sm text-center">
+      Cada hora se diagnostican<br/>
+      <span class="display-1 font-weight-bold" id="rate_ill">X</span><br/>
+      nuevos contagios
+    </div>
+    <div class="col-sm text-center">
+      Cada hora se registran<br/>
+      <span class="display-1 font-weight-bold" id="rate_dead">Y</span><br/>
+      nuevas víctimas
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-sm text-center">
+      <span id="current_daymonth"></span><br/>
+      <span class="display-2" id="current_date"></span><br/>
+      <small>Última actualización oficial: <span id="official_date"></span></small>
+    </div>
+    <div class="col-sm text-center">
+      Contagiados<br/>
+      <span class="display-2 font-weight-bold" id="estimated_ill"></span><br/>
+      <small class="text-danger">Última cifra oficial: <span id="official_ill"></span></small>
+    </div>
+    <div class="col-sm text-center">
+        Muertos<br/>
+        <span class="display-2 font-weight-bold" id="estimated_dead"></span><br/>
+        <small class="text-danger">Última cifra oficial: <span id="official_dead"></span></small>
+    </div>
+  </div>
+   <div class="row mt-3">
+    <div class="col-sm text-center">
+      <br/>
+      El modelo predijo<br/>
+      para las 21:00<br/>
+      pasadas
+    </div>
+    <div class="col-sm text-center">
+      Contagiados<br/>
+      <span class="display-2 font-weight-bold" id="estimated_ill_21"></span><br/>
+      <small>Acierto: <span id="accuracy_ill"></span></small>
+    </div>
+    <div class="col-sm text-center">
+        Muertos<br/>
+        <span class="display-2 font-weight-bold" id="estimated_dead_21"></span><br/>
+        <small>Acierto: <span id="accuracy_dead"></span></small>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-sm text-center">
+      <br/>
+      El modelo predice<br/>
+      los siguientes datos<br/>
+      oficiales
+    </div>
+    <div class="col-sm text-center">
+      Contagiados<br/>
+      <span class="display-2 font-weight-bold" id="estimated_ill_n21"></span><br/>
+    </div>
+    <div class="col-sm text-center">
+        Muertos<br/>
+        <span class="display-2 font-weight-bold" id="estimated_dead_n21"></span><br/>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-sm text-center">
+      <br/>
+      El modelo predice<br/>
+      los siguientes datos<br/>
+      oficiales dentro de 7 días.(*)
+    </div>
+    <div class="col-sm text-center">
+      Contagiados<br/>
+      <span class="display-2 font-weight-bold" id="estimated_ill_p7"></span><br/>
+    </div>
+    <div class="col-sm text-center">
+        Muertos<br/>
+        <span class="display-2 font-weight-bold" id="estimated_dead_p7"></span><br/>
+    </div>
+  </div>
+  <small>(*) Es la estimación con menor fiabilidad.</small>
+  <h2 class="mt-5">Historial de predicciones</h2>
+  <h3>Contagios</h3>
+  <div class="mt-4 mb-5" id="prediction_table_ill">
+
+  </div>
+  <h3>Víctimas mortales</h3>
+  <div class="mt-4 mb-5" id="prediction_table_dead">
+
+  </div>
+
+
+</div>
+    </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+   <script src="main.js"></script>
+  </body>
+</html>
