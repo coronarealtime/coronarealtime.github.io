@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+    <title>Coronavirus en tiempo real - Acotación de escenarios de confinamiento</title>
+
+  </head>
+
+  <body>
+
+    <!-- Begin page content -->
+    <div class="container">
+      <div class="mt-4">
+        <h1>Acotación de escenarios de confinamiento</h1>
+      </div>
+      <p>La siguiente tabla muestra una cota de los resultados previsibles de adelantar o retrasar el confinamiento desde la fecha en el que se produjo (14 de marzo) a toda la lista de fechas que se muestran. Para los adelantos se muestran cotas superiores, y se acompañan del signo <em>menor que</em> ('&lt;'). Para los retrasos, se muestran cotas inferiores, y se acompañan del signo <em>mayor que</em> (&gt;).</p>
+
+
+  <div class="mt-4 mb-5" id="boundaries_table">
+  </div>
+  <p>La tabla ofrece estimaciones a 21 horas de la jornada anterior, como sucede con las cifras oficiales. Cada columna expresa la información que se describe a continuación:</p>
+  <ul>
+    <li><strong>Fecha de confinamiento:</strong> la fecha hipotética (para el 14-03-2020, real) utilizada para marcar el decreto de confinamiento.</li>
+    <li><strong>Contagios:</strong> cotas superiores o inferiores del número de contagios estimados mediante rotación de multiplicadores.</li>
+    <li><strong>Víctimas mortales:</strong> cotas superiores o inferiores del número de víctimas mortales estimadas mediante rotación de multiplicadores.</li>
+    <li><strong>Tasa de letalidad:</strong> tasa, en porcentaje, que se obtiene de dividir el campo de <strong>Contagios</strong> por el de <strong>Víctimas mortales</strong>.</li>
+    <li><strong>Contagios (letalidad fija):</strong> son los contagios estimados utilizando la letalidad oficial del virus, resultado de dividir los contagios para la fecha de decreto de confinamiento del 14-03-2020 por la mortalidad oficial allí presentada. La letalidad que se utiliza no es, por lo tanto, la letalidad que se muestra en cada fila sino un número fijo para todas las filas y en la actualidad toma el valor de <span class="text-danger font-weight-bold" id="letalidad_14M"></span>. Este valor se actualiza con los datos de cada día.</li>
+    <li><strong>Víctimas (letalidad fija):</strong> Se trata del cálculo complementario a <strong>Contagios (letalidad fija)</strong>, es decir, tomar por buenos los contagios estimados por rotación y a partir de la tasa de letalidad fija, estimar las muertes.</li>
+  </ul>
+  <p>En la tabla se resalta en rojo la fecha real de confinamiento, que contiene los últimos datos oficiales, y en verde los datos de confinamientos alternativos que se muestran en la <a href="index.html">página de inicio</a>. Las cifras que se muestran puede ser ligeramente superiores debido a que los datos de portada se actualizan a hora y minuto, y los de esta tabla se corresponden con las 21 horas de la jornada anterior. Nótese que para los contagios de portada se utilizan los <strong>Contagios (letalidad fija)</strong> y no los <strong>Contagios</strong>. Las razones para seleccionar este dato, que es más conservador, se razonan más abajo.</p>
+  <h2>Procedimiento de cálculo</h2>
+  <p>Para el procedimiento de cálculo se ha optado por un método basado en la rotación de los multiplicadores y la introducción de valores de multiplicadores nuevos en los extremos cuando sea necesario. Se ha decidido utilizar este procedimiento, frente a otros que puedan ser más utilizados, porque se trata de un método especialmente conservador, que no busca apurar resultados exactos, pero que sí arroja cotas superiores e inferiores bastante seguras. Otra razón importante también es la de asegurar la transparencia de los cálculos, porque el método difícilmente admite manipulaciones ocultas.</p>
+  <p>Llamaremos <em>multiplicadores</em> a los valores que se obtienen dividiendo el valor de cada día, de mortalidad o de contagios, por el inmediatamente anterior, siempre que sea distinto de cero para el que no se puede realizar la división. En el siguiente ejemplo se muestra la manera de calcularlos:</p>
+
+  <table class="table">
+    <tbody>
+    <tr><th>Fecha</th><td>04-03-2020</td><td>05-03-2020</td><td>06-03-2020</td><td>07-03-2020</td><td>08-03-2020</td><td>09-03-2020</td><td>10-03-2020</td><td>11-03-2020</td><td>...</td></tr>
+    <tr><th>Víctimas acum.</th><td class="text-center">3</td><td  class="text-center">5</td><td  class="text-center">8</td><td class="text-center">17</td><td class="text-center">17</td><td class="text-center">35</td><td class="text-center">47</td><td class="text-center">84</td><td class="text-center">...</td></tr>
+    <tr><th>Multiplicadores</th><td class="text-center">-</td><td class="text-center">\({5 \over 3} = 1.67\)</td><td class="text-center">\({8 \over 5 }=1.60\)</td><td class="text-center">\({17 \over 8}=2.12\)</td><td class="text-center">\({17 \over 17}=1.00\)</td><td class="text-center">\({35 \over 17} =2.06\)</td><td class="text-center">\({47 \over 35}=1.34\)</td><td class="text-center">\({84 \over 47}=1.79\)</td><td  class="text-center">...</td></tr>
+    </tbody>
+  </table>
+
+  <p>Estos multiplicadores tienen la propiedad interesante de que, si se multiplica el valor del primer día no nulo (en el ejemplo, 3) por todos los multiplicadores, se obtiene el valor de las víctimas mortales actuales exactamente. Por ejemplo, tomemos la serie anterior que va de 3 a 84. Una vez escrito el producto, queda claro que los componentes se van cancelando en diagonal y nos queda solo el último número:
+    \[3 \cdot \biggl({5 \over 3} \cdot {8 \over 5 } \cdot {17 \over 8} \cdot {17 \over 17} \cdot {35 \over 17} \cdot {47 \over 35} \cdot {84 \over 47} \biggr) = \cancel{3} \cdot \Biggl({\cancel{5} \over \cancel{3}} \cdot {\cancel{8} \over \cancel{5} } \cdot {\cancel{17} \over \cancel{8}} \cdot {\cancel{17} \over \cancel{17}} \cdot {\cancel{35} \over \cancel{17}} \cdot {\cancel{47} \over \cancel{35}} \cdot {84 \over \cancel{47}} \Biggr) = 84 .\]
+    La hipótesis, que se comprueba empíricamente, es que los días sin confinamiento tienen unos multiplicadores bastante más altos (superiores a 1.3, en promedio) a los días con confinamiento (inferiores a 1.05, o incluso inferiores a 1.01). De manera que, para introducir en la serie días con o sin confinamiento a fin de simular escenarios diferentes, nos basta con reemplazar algunos multiplicadores correspondientes a días con confinamiento por valores promedio de los multiplicadores de los días sin confinamiento, y viceversa para el caso contrario.
+  </p>
+
+  <h3>Retraso del confinamiento</h3>
+  <p>Supóngase ahora que se retrasa el confinamiento <strong>dos días</strong>. La forma que se propone de modificar los multiplicadores consiste en desplazar cada uno de ellos dos posiciones hacia la derecha, dejando dos nuevos huecos a la izquierda. Esos nuevos huecos <strong>se rellenan con el valor promedio constante de los 10 primeros multiplicadores</strong> (en el ejemplo, digamos que se obtuviera 1.40), en la suposición de que al retrasar la actuación estás en un escenario de añadir nuevos días sin confinamiento. En el ejemplo anterior:
+    <table class="table">
+      <tbody>
+      <tr><th>Fecha</th><td>04-03-2020</td><td>05-03-2020</td><td>06-03-2020</td><td>07-03-2020</td><td>08-03-2020</td><td>09-03-2020</td><td>10-03-2020</td><td>11-03-2020</td><td>...</td></tr>
+      <tr><th>Multiplicadores</th><td class="text-right">-</td><td class="text-right">1.67</td><td class="text-right">1.60</td><td class="text-right">2.12</td><td class="text-right">1.00</td><td class="text-right">2.06</td><td class="text-right">1.34</td><td class="text-right">1.79</td><td  class="text-right">...</td></tr>
+      <tr><th>Multiplic. +1</th><td class="text-right">-</td><td class="text-right text-danger">1.40</td><td class="text-right">1.67</td><td class="text-right">1.60</td><td class="text-right">2.12</td><td class="text-right">1.00</td><td class="text-right">2.06</td><td class="text-right">1.34</td><td  class="text-right">...</td></tr>
+      <tr><th>Multiplic. +2</th><td class="text-right">-</td><td class="text-right text-danger">1.40</td><td class="text-right text-danger">1.40</td><td class="text-right">1.67</td><td class="text-right">1.60</td><td class="text-right">2.12</td><td class="text-right">1.00</td><td class="text-right">2.06</td><td  class="text-right">...</td></tr>
+      </tbody>
+    </table>
+
+  <p>La fila <strong>Multiplic. +1</strong> contiene el resultado de rotar la serie un día, y la fila <strong>Multiplic. +2</strong> contiene el resultado de rotar los multiplicadores los dos días que se proponen. Para darse cuenta de lo que ocurre en la tabla, ayuda poner de manifiesto que las diagonales descendentes contienen valores idénticos. En el otro extremo de la serie, los valores que "no caben", debido al desplazamiento de todos los valores, sencillamente se pierden:</p>
+
+  <table class="table">
+    <tbody>
+    <tr><th>Fecha</th><td>...</td><td>04-05-2020</td><td>05-05-2020</td><td>06-05-2020</td><td>07-05-2020</td><td>08-05-2020</td><td>09-05-2020</td><td>10-05-2020</td><td>11-05-2020</td></tr>
+    <tr><th>Multiplicadores</th><td  class="text-right">...</td><td class="text-right">1.02</td><td class="text-right">1.00</td><td class="text-right">1.01</td><td class="text-right">1.00</td><td class="text-right">1.00</td><td class="text-right">1.01</td><td class="text-right">1.01</td><td class="text-right">1.00</td></tr>
+    <tr><th>Multiplic. +1</th><td  class="text-right">...</td><td class="text-right">1.01</td><td class="text-right">1.02</td><td class="text-right">1.00</td><td class="text-right">1.01</td><td class="text-right">1.00</td><td class="text-right">1.00</td><td class="text-right">1.01</td><td class="text-right">1.01</td></tr>
+    <tr><th>Multiplic. +2</th><td  class="text-right">...</td><td class="text-right">1.02</td><td class="text-right">1.01</td><td class="text-right">1.02</td><td class="text-right">1.00</td><td class="text-right">1.01</td><td class="text-right">1.00</td><td class="text-right">1.00</td><td class="text-right">1.01</td></tr>
+    </tbody>
+  </table>
+
+
+  <h3>Adelanto del confinamiento</h3>
+
+  <p>De forma simétrica, adelantar el confinamiento <strong>dos días</strong> modifica la tabla de forma similar pero en la dirección contraria. En este suupuesto, se van a perder valores por la izquierda y va a ser necesario aportar nuevos valores a la derecha, de nuevo mediante el promedio de los diez, en este caso, últimos valores (1.01 en el ejemplo). Veamos los dos extremos conjuntamente:
+
+    <table class="table">
+      <tbody>
+      <tr><th>Fecha</th><td>04-03-2020</td><td>05-03-2020</td><td>06-03-2020</td><td>07-03-2020</td><td>08-03-2020</td><td>09-03-2020</td><td>10-03-2020</td><td>11-03-2020</td><td>...</td></tr>
+      <tr><th>Multiplicadores</th><td class="text-right">-</td><td class="text-right">1.67</td><td class="text-right">1.60</td><td class="text-right">2.12</td><td class="text-right">1.00</td><td class="text-right">2.06</td><td class="text-right">1.34</td><td class="text-right">1.79</td><td  class="text-right">...</td></tr>
+      <tr><th>Multiplic. -1</th><td class="text-right">-</td><td class="text-right">1.60</td><td class="text-right">2.12</td><td class="text-right">1.00</td><td class="text-right">2.06</td><td class="text-right">1.34</td><td class="text-right">1.79</td><td class="text-right">1.43</td><td  class="text-right">...</td></tr>
+      <tr><th>Multiplic. -2</th><td class="text-right">-</td><td class="text-right">2.12</td><td class="text-right">1.00</td><td class="text-right">2.06</td><td class="text-right">1.34</td><td class="text-right">1.79</td><td class="text-right">1.43</td><td class="text-right">1.13</td><td  class="text-right">...</td></tr>
+      </tbody>
+    </table>
+
+    <table class="table">
+      <tbody>
+      <tr><th>Fecha</th><td>...</td><td>04-05-2020</td><td>05-05-2020</td><td>06-05-2020</td><td>07-05-2020</td><td>08-05-2020</td><td>09-05-2020</td><td>10-05-2020</td><td>11-05-2020</td></tr>
+      <tr><th>Multiplicadores</th><td  class="text-right">...</td><td class="text-right">1.02</td><td class="text-right">1.00</td><td class="text-right">1.01</td><td class="text-right">1.00</td><td class="text-right">1.00</td><td class="text-right">1.01</td><td class="text-right">1.01</td><td class="text-right">1.00</td></tr>
+      <tr><th>Multiplic. -1</th><td  class="text-right">...</td><td class="text-right">1.00</td><td class="text-right">1.01</td><td class="text-right">1.00</td><td class="text-right">1.00</td><td class="text-right">1.01</td><td class="text-right">1.01</td><td class="text-right">1.00</td><td class="text-right text-danger">1.01</td></tr>
+      <tr><th>Multiplic. -2</th><td  class="text-right">...</td><td class="text-right">1.01</td><td class="text-right">1.00</td><td class="text-right">1.00</td><td class="text-right">1.01</td><td class="text-right">1.01</td><td class="text-right">1.00</td><td class="text-right text-danger">1.01</td><td class="text-right text-danger">1.01</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Crítica del método y credibilidad de los resultados</h2>
+    <p>A continuación se listan algunas consideraciones:
+      <ul>
+        <li><strong>Integridad de las series de datos:</strong> Se utilizan las series de datos oficiales del gobierno. Dado que se cambió la serie oficial, la serie utilizada presenta anomalías, pues los valores acumulados de víctimas y contagios hay algún día que incluso decrecen. Pese a todo ello, optamos por utilizarlas a falta de series con mejor respaldo oficial y también porque las conclusiones a las que se llegarían con series más fiables serían equivalentes.</li>
+        <li><strong>Fiabilidad de las series de datos:</strong> Las series de datos de <strong>contagios</strong> y de <strong>mortalidad</strong> se manejan independientemente y se ofrecen resultados para ambas, pero asumimos que, de entre las dos series, <strong>la más fiable es la de mortalidad</strong>. Esto sucedería siempre, independientemente de si hubiera errores o no en el tratamiento de los datos. La causa es que el número de tests para conocer los contagios es producto de una decisión administrativa, mientras que el número de muertes ofrece menor espacio a la arbitrariedad.</li>
+        <li><strong>Fiabilidad de las series de resultados:</strong> Pensamos que ambas series de resultados (las de rotación y las de "letalidad fija"), pese a sus discrepancias, expresan cotas superiores o inferiores allí donde se muestran, y se tendría la tentación de presentar como resultado más fiable la menos restrictiva de las dos. Pero como acabamos de decir que nos parece más fiable la serie de datos de mortalidad que la de contagios, pensamos que las dos series más fiables son las rotuladas como <strong>Víctimas mortales</strong> y <strong>Contagios (letalidad fija)</strong>, por ser más conservadoras y, además, las que usan datos que consideramos más fiables.
+        <li><strong>Saturación de contagios:</strong> No se han tenido en cuenta efectos de la saturación de contagios, dado que el número mayor que se ofrece en las series estimadas es menor de 10 millones y la población española es de más de 47 millones de ciudadanos. En ningún caso se considera en el procedimiento de cálculo un escenario en el que la capacidad de contagio baje porque ya hay mucha gente contagiada.</li>
+        <li><strong>Distribución geográfica:</strong> El cálculo realizado es puramente aritmético y no tiene ninguna consideración de carácter de distribución local de los contagios, que reconocemos que pueden llegar a ser transcendentes, provocando efectos de saturación locales que en ningún caso se tienen en cuenta salvo por aproximación global.</li>
+        <li><strong>Los multiplicadores constantes son discutibles como aproximación.</strong> Efectivamente, a mayor volumen de epidemia, todos los multiplicadores, no solo los de los extremos, se verían incrementados, y al revés en caso contrario. Pero esto tiene <strong>dos buenas consecuencias</strong> para nuestros fines:
+          <ul>
+             <li><strong>Adelanto del confinamiento:</strong> se utilizan utilizan los multiplicadores de una epidemia mayor para estimar otra menor, y se puede asegurar que el resultado obtenido va a ser una <strong>cota superior</strong> del resultado que se obtendría aminorando todos los multiplicadores siguiendo algún modelo matemático más sofisticado. De este modo, se puede decir que todos los valores del cálculo de los adelantos del confinamiento <strong>son valores "como máximo"</strong>, y se pueden acompañar del signo &lt; para resaltar este carácter.</li>
+             <li><strong>Retraso del confinamiento</strong> se utilizan los multiplicadores de la epidemia menor para estimar otra mayor, y se puede asegurar que el resultado obtenido va a ser una <strong>cota inferior</strong> del resultado quue se obtendría incrementando los multiplicadores siguiendo algún modelo matemático más sofisticado. Por lo tanto, también se puede decir que todos los valores de los cálculos del retraso del confinamiento <strong>son valores "como mínimo"</strong>, y se pueden acompañar del signo &gt; para resaltar este carácter.</li>
+          </ul>
+        </li>
+        <li>Como consecuencia de lo anterior, podemos afirmar sin arriesgar demasiado que <strong>los valores de cota que se obtienen son muy conservadores y bastante sólidos</strong>.</li>
+      </ul>
+
+    <p>Estamos abiertos a tener en cuenta cualquier sugerencia, consideración, cuestionamiento o crítica que la comunidad quiera aportar, tanto sobre la serie de datos, como los procedimientos de cálculo para ampliar, corregir y mejorar este estudio. Para ello, les agradeceremos que se dirijan a <a href="https://twitter.com/coronarealtime">@coronarealtime</a> en Twitter.</p>
+
+</div>
+    </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+   <script src="main.js"></script>
+  </body>
+</html>
