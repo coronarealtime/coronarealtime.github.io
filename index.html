@@ -23,7 +23,7 @@
       <p class="lead">Las víctimas del coronavirus (enfermedad por SARS-CoV-2, COVID-19) en España <strong>estimadas</strong> en tiempo real. Se utilizan datos oficiales, actualizados diariamente, para ofrecer una estimación realista. Está disponible una <a href="#prediction_table">tabla con todas las predicciones</a>.</p>
 
       <div class="container">
-  <div class="row mt-4">
+  <div class="row mt-5">
     <div class="col-sm text-center">
       Cada hora se diagnostican<br/>
       <span class="display-1 font-weight-bold" id="rate_ill">X</span><br/>
@@ -32,10 +32,10 @@
     <div class="col-sm text-center">
       Cada hora se registran<br/>
       <span class="display-1 font-weight-bold" id="rate_dead">Y</span><br/>
-      nuevas víctimas
+      nuevas víctimas mortales
     </div>
   </div>
-  <div class="row mt-3">
+  <div class="row mt-4">
     <div class="col-sm text-center">
       <span id="current_daymonth"></span><br/>
       <span class="display-2" id="current_date"></span><br/>
@@ -54,7 +54,7 @@
   </div>
    <div class="row mt-3">
     <div class="col-sm text-center">
-      <br/>
+      <p>&nbsp;</p>
       El modelo predijo<br/>
       para las 21:00<br/>
       pasadas
@@ -70,9 +70,9 @@
         <small>Acierto: <span id="accuracy_dead"></span></small>
     </div>
   </div>
-  <div class="row mt-3">
+  <div class="row mt-4">
     <div class="col-sm text-center">
-      <br/>
+      <p>&nbsp;</p>
       El modelo predice<br/>
       los siguientes datos<br/>
       oficiales
@@ -87,12 +87,12 @@
     </div>
   </div>
 
-  <div class="row mt-3">
+  <div class="row mt-4">
     <div class="col-sm text-center">
-      <br/>
+      <p>&nbsp;</p>
       El modelo predice<br/>
       los siguientes datos<br/>
-      oficiales dentro de 7 días.(*)
+      oficiales dentro de 7 días<sup>1</sup>
     </div>
     <div class="col-sm text-center">
       Contagiados<br/>
@@ -103,18 +103,53 @@
         <span class="display-2 font-weight-bold" id="estimated_dead_p7"></span><br/>
     </div>
   </div>
-  <small>(*) Es la estimación con menor fiabilidad.</small>
-  <h2 class="mt-5">Historial de predicciones</h2>
-  <h3>Contagios</h3>
-  <div class="mt-4 mb-5" id="prediction_table_ill">
+
+  <div class="row mt-4">
+    <div class="col-sm text-center">
+       <p>&nbsp;</p>
+       Adelantando la intervención<br/>
+       del 14 al 9 de marzo<br/>
+       se hubieran producido<sup>2</sup><br/>
+    </div>
+    <div class="col-sm text-center">
+      Contagiados<br/>
+      <span class="text-danger display-2">&lt;&nbsp;</span><span class="text-danger display-2 font-weight-bold" id="bound_ill_9M"></span><br/>
+    </div>
+    <div class="col-sm text-center">
+        Muertos<br/>
+        <span class="text-danger display-2">&lt;&nbsp;</span><span class="text-danger display-2 font-weight-bold" id="bound_dead_9M"></span><br/>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-sm text-center">
+       <p>&nbsp;</p>
+       Retrasando la intervención<br/>
+       del 14 al 19 de marzo<br/>
+       se hubieran producido<sup>2</sup><br/>
+    </div>
+    <div class="col-sm text-center">
+      Contagiados<br/>
+      <span class="text-danger display-2">&gt;&nbsp;</span><span class="text-danger display-2 font-weight-bold" id="bound_ill_19M"></span><span class="text-danger display-2 font-weight-bold">K</span><br/>
+    </div>
+    <div class="col-sm text-center">
+        Muertos<br/>
+        <span class="text-danger display-2">&gt;&nbsp;</span><span class="text-danger display-2 font-weight-bold" id="bound_dead_19M"></span><span class="text-danger display-2 font-weight-bold">K</<span><br/>
+    </div>
+  </div>
+
+  <small><sup>1</sup> Es la estimación con menor fiabilidad.</small><br/>
+  <small><sup>2</sup> Determinado por un procedimiento que se detalla <a href="acotaciones.html">aquí</a>.</small>
+  <br/>
+  <br/> 
+  <h2>Escenarios de actuación</h2>
+  <p>La siguiente tabla. Por transparencia, hemos elaborado un <a href="acotaciones.html">documento detallado</a> con información más completa y el procedimiento de cálculo empleado.</p>
+
+  <div class="mt-4 mb-5" id="scenarios">
 
   </div>
-  <h3>Víctimas mortales</h3>
-  <div class="mt-4 mb-5" id="prediction_table_dead">
 
-  </div>
-
-
+  <p>El historial de predicciones que antes se hallaba al final de esta página se ha movido <a href="tables.html">aquí</a>.</p>
 </div>
     </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
